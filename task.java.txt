@@ -1,0 +1,109 @@
+public class rleCompression {
+
+    public static String encode(String str) {
+        String encoded ="";
+        int count = 1;
+
+        for (int i = 1; i <= str.length(); i++) {
+            if (i < str.length() && str.charAt(i) == str.charAt(i -1)) {
+                count++;
+            } else {
+                encoded +=str.charAt(i-1);
+                encoded +=count; 
+                count = 1;
+            }
+        }return encoded;
+    }
+///////////////////////////////////////////////////
+    public static String decode(String str) {
+        String decoded = "";
+        int i = 0;
+
+        while (i <str.length()) {
+            char ch = str.charAt(i);
+            i++;
+            int count= 0;
+
+            while (i < str.length() && str.charAt(i) >= '0' &&str.charAt(i) <= '9') {
+                count = count * 10 + (str.charAt(i) - '0');
+                i++;
+            }
+
+            for (int j= 0; j <count; j++) {
+                decoded+= ch;
+            }
+        }
+
+        return decoded;
+    }
+///////////////////////////////////////////////
+    public static void main(String[] args) {
+
+        String[] testCases = {
+            "aaaaaaa",
+            "aaabbcaabc",
+            "aaaaabbbbbaaaaabbbbb",
+            "aaaaaaaaaaaaaaaaaaaabbbbbbbb",
+            // in addition to the above you asked me for, here are some edge ones I see can promote my solution and its correctness
+            // I supposed that there is no case such that the input is an empty one.
+            "aabbcc",
+            "abc","a",
+            "aa","aaa"
+        };
+
+        for (String testCase : testCases) {
+            String encoded = encode(testCase);
+            String decoded = decode(encoded);
+            System.out.println("Original ->  " + testCase);
+            System.out.println("Encoded-> " + encoded);
+            System.out.println("Decoded->" + decoded);
+            System.out.println("-----------------------");
+        }
+    }
+}
+
+
+
+
+
+
+//////////////////// And these are the test cases I got using Programiz
+java -cp /tmp/gTMz2KaMAM/rleCompression
+Original ->  aaaaaaa
+Encoded-> a7
+Decoded->aaaaaaa
+-----------------------
+Original ->  aaabbcaabc
+Encoded-> a3b2c1a2b1c1
+Decoded->aaabbcaabc
+-----------------------
+Original ->  aaaaabbbbbaaaaabbbbb
+Encoded-> a5b5a5b5
+Decoded->aaaaabbbbbaaaaabbbbb
+-----------------------
+Original ->  aaaaaaaaaaaaaaaaaaaabbbbbbbb
+Encoded-> a20b8
+Decoded->aaaaaaaaaaaaaaaaaaaabbbbbbbb
+-----------------------
+Original ->  aabbcc
+Encoded-> a2b2c2
+Decoded->aabbcc
+-----------------------
+Original ->  abc
+Encoded-> a1b1c1
+Decoded->abc
+-----------------------
+Original ->  a
+Encoded-> a1
+Decoded->a
+-----------------------
+Original ->  aa
+Encoded-> a2
+Decoded->aa
+-----------------------
+Original ->  aaa
+Encoded-> a3
+Decoded->aaa
+-----------------------
+
+=== Code Execution Successful ===
